@@ -45,12 +45,21 @@ int	main(int ac, char **av)
     }
 	data->mlx = NULL;
 	data->win = NULL;
+	data->img_p = NULL;
+    data->img_w = NULL;
 	data->px = 0;
     data->py = 0;
 	map_check(map_read(av[1]));
 	start_window(data);
+	start(data);
 	mlx_key_hook(data->win, buttons, data);
     mlx_loop_hook(data->mlx, &loop, data);
     mlx_loop(data->mlx);
+	printf("xxxx\n");
+	printf("5555\n");
+	/*mlx_destroy_window(data->mlx, data->win);
+    mlx_destroy_image(data->mlx, data->img_p);
+    mlx_destroy_image(data->mlx, data->img_w);
+    mlx_destroy_display(data->mlx);*/
 	free(data);
 }

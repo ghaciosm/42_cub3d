@@ -4,7 +4,7 @@
 int    loop(t_data *data)
 {
     mlx_clear_window(data->mlx, data->win);
-    draw_player(data);
     draw_map(data);
-    return 0;
+    draw_player(data);
+    return 1;
 }

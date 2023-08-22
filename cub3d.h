@@ -15,6 +15,9 @@
 
 # define	WINDOW_WIDTH  700
 # define	WINDOW_HEIGHT 700
+# define	SQR 70
+# define	PLAYER (SQR /4)
+
 
 #include "libft/libft.h"
 #include "next_line/get_line.h"
@@ -24,8 +27,15 @@ typedef struct s_data
 	void *mlx;
 	void *win;
 
+	int bits_per_pixel;
+    int size_line;
+    int endian;
 	float px;
 	float py;
+	void	*img_p;
+	void	*img_p_addr;
+	void	*img_w;
+	void	*img_w_addr;
 } t_data;
 
 /*stypedef struct s_player
@@ -40,7 +50,8 @@ void    start_window(t_data *data);
 int		loop(t_data *data);
 void	draw_player(t_data *data);
 void	draw_map(t_data *data);
-int    buttons(int key, t_data *data);
+int		buttons(int key, t_data *data);
+void	start(t_data *data);
 
 
 #endif
