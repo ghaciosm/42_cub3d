@@ -31,24 +31,20 @@ void draw_map(t_data *data)
 {
     int map[10][10] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-        {1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
-        {1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-        {1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
-        {1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-        {1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
-        {1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-        {1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
+        {1, 1, 0, 1, 0, 1, 1, 1, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+        {1, 1, 0, 1, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 1, 0, 0, 0, 0, 1, 1},
+        {1, 1, 0, 1, 0, 1, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 1, 0, 0, 1, 1},
+        {1, 1, 0, 1, 0, 1, 0, 0, 0, 1},
+        {1, 0, 1, 0, 1, 1, 1, 0, 1, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
-    unsigned int white_color = 0xFFFFFFF;
-    
     for (int y = 0; y < 10; y++)
     {
         for (int x = 0; x < 10; x++)
         {
-            if (map[y][x] == 1)
-            {
                 int pixel_start_x = x * SQR;
                 int pixel_start_y = y * SQR;
                 
@@ -57,32 +53,47 @@ void draw_map(t_data *data)
                     for (int dx = 0; dx < SQR; dx++)
                     {
                         int pixel_pos = ((pixel_start_y + dy) * WINDOW_WIDTH + (pixel_start_x + dx));
-                        /*if (dx == 0 || dx == SQR - 1 || dy == 0 || dy == SQR - 1)
+                        if (dx == 0 || dx == SQR - 1 || dy == 0 || dy == SQR - 1)
                         {
                             ((unsigned int *)data->img_w_addr)[pixel_pos] = 0xCDAB70;
-                        }*/
-                        ((unsigned int *)data->img_w_addr)[pixel_pos] = white_color;
+                        }
+                        else if (map[y][x] == 1)
+                            ((unsigned int *)data->img_w_addr)[pixel_pos] = 0xFFFFFFF;
+                        else
+                            ((unsigned int *)data->img_w_addr)[pixel_pos] = 0xFFFFFFFF;
                     }
                 }
-            }
         }
     }
     mlx_put_image_to_window(data->mlx, data->win, data->img_w, 0, 0);
 }
 
 
-int    buttons(int key, t_data *data)
+int buttons_press(int key, t_data *data)
 {
-    if(key == 0) //A
-        data->px -= 5;
-    else if(key == 2) //D
-        data->px += 5;
-    else if(key == 13) //w
-        data->py -= 5;
-    else if(key == 1) //S
-        data->py += 5;
-    else if(key == 53)
+    if (key == 0) // A
+        data->move_left = 1;
+    else if (key == 2) // D
+        data->move_right = 1;
+    else if (key == 13) // W
+        data->move_up = 1;
+    else if (key == 1) // S
+        data->move_down = 1;
+    else if (key == 53) // ESC
         exit(0);
+    return 0;
+}
+
+int buttons_release(int key, t_data *data)
+{
+    if (key == 0)
+        data->move_left = 0;
+    else if (key == 2)
+        data->move_right = 0;
+    else if (key == 13)
+        data->move_up = 0;
+    else if (key == 1)
+        data->move_down = 0;
     return 0;
 }
 

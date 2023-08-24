@@ -36,6 +36,10 @@ typedef struct s_data
 	void	*img_p_addr;
 	void	*img_w;
 	void	*img_w_addr;
+	int		move_left;
+	int		move_right;
+	int		move_up;
+	int		move_down;
 } t_data;
 
 /*stypedef struct s_player
@@ -50,7 +54,8 @@ void    start_window(t_data *data);
 int		loop(t_data *data);
 void	draw_player(t_data *data);
 void	draw_map(t_data *data);
-int		buttons(int key, t_data *data);
+int		buttons_release(int key, t_data *data);
+int		buttons_press(int key, t_data *data);
 void	start(t_data *data);
 
 
