@@ -27,6 +27,7 @@ void draw_player(t_data *data)
     mlx_put_image_to_window(data->mlx, data->win, data->img_p, data->px - (PLAYER / 2), data->py - (PLAYER / 2));
 }
 
+
 void draw_map(t_data *data)
 {
     int map[10][10] = {

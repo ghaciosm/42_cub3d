@@ -1,34 +1,43 @@
 #include "cub3d.h"
+#include "mlx/mlx.h"
 #include <math.h>
+
+void draw_line(t_data *data, int x, int y, int length, float angle, int color)
+{
+    float endX = x + length * cos(angle);
+    float endY = y - length * sin(angle);
+
+    int steps = 10 ;// 4 piksel adımlarla çizelim
+
+    for (int i = 0; i < steps; i++)
+    {
+        int pixel_x = x + i * cos(angle) * 4;
+        int pixel_y = y - i * sin(angle) * 4;
+
+        if (pixel_x >= 0 && pixel_x < WINDOW_WIDTH && pixel_y >= 0 && pixel_y < WINDOW_HEIGHT)
+            mlx_pixel_put(data->mlx, data->win, pixel_x, pixel_y, color);
+    }
+}
 
 void    buttons(t_data *data)
 {
-    if (data->move_left)
+    if (data->left)
     {
         data->pa -= 0.1;
-        if(data->pa < 0)
+        /*if(data->pa < 0)
             data->pa += 2 *PI;
         data->pdx = cos(data->pa) * 5;
-        data->pdy = sin(data->pa) * 5;
+        data->pdy = sin(data->pa) * 5;*/
     }
-    if (data->move_right)
+    if (data->right)
     {
         data->pa += 0.1;
-        if((data->pa) > (2.0 * PI))
+        /*if((data->pa) > (2.0 * PI))
             data->pa -= 2.0 *PI;
         data->pdx = cos(data->pa) * 5;
-        data->pdy = sin(data->pa) * 5;
+        data->pdy = sin(data->pa) * 5;*/
     }
-    if (data->move_up)
-    {
-        data->px -= data->pdx;
-        data->py -= data->pdy;
-    }
-    if (data->move_down)
-    {
-        data->px += data->pdx;
-        data->py += data->pdy;
-    }
+    draw_line(data, data->px, data->py, 4, data->pa, 0x00FF00);
 }
 
 void    key_press(t_data *data)
@@ -41,10 +50,6 @@ void    key_press(t_data *data)
         data->py -= 2;
     if (data->move_down)
         data->py += 2; 
-    if (data->left)
-        
-    if (data->right)
-
 }
 
 int buttons_press(int key, t_data *data)//tusa basildiginde
