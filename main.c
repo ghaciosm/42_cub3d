@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include <mlx.h>
-//#include <mat.h>
+#include <math.h>
 #include "libft/libft.h"
 #include "mlx/mlx.h"
 #include "cub3d.h"
@@ -53,11 +52,14 @@ int	main(int ac, char **av)
     data->move_right = 0;
     data->move_up = 0;
     data->move_down = 0;
+	data->pa = 0;
+	data->pdx = cos(data->pa) * 5;
+	data->pdy = sin(data->pa) * 5;
 	map_check(map_read(av[1]));
 	start_window(data);
 	start(data);
-	mlx_hook(data->win, 2, (1L << 0), buttons_press, data);
-    mlx_hook(data->win, 3, (1L << 1), buttons_release, data);
+	mlx_hook(data->win, 2, (1L << 0), buttons_press, data);// 2 parametresi tusa basilma olayını ifade eder
+    mlx_hook(data->win, 3, (1L << 1), buttons_release, data); // (1L << 1) bit maskesi
 	mlx_loop_hook(data->mlx, &loop, data);
     mlx_loop(data->mlx);
 	free(data);

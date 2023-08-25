@@ -17,6 +17,7 @@
 # define	WINDOW_HEIGHT 700
 # define	SQR 70
 # define	PLAYER (SQR /4)
+# define	PI	3.14159
 
 
 #include "libft/libft.h"
@@ -32,6 +33,9 @@ typedef struct s_data
     int endian;
 	float px;
 	float py;
+	float pdx;
+	float pdy;
+	float pa;
 	void	*img_p;
 	void	*img_p_addr;
 	void	*img_w;
@@ -42,12 +46,6 @@ typedef struct s_data
 	int		move_down;
 } t_data;
 
-/*stypedef struct s_player
-{
-	float	px;
-	float	py;
-}	t_player;*/
-
 char    **map_read(char *filename);
 void	map_check(char **map);
 void    start_window(t_data *data);
@@ -57,6 +55,7 @@ void	draw_map(t_data *data);
 int		buttons_release(int key, t_data *data);
 int		buttons_press(int key, t_data *data);
 void	start(t_data *data);
-
+void    key_press(t_data *data);
+void    buttons(t_data *data);
 
 #endif
