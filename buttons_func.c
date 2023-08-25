@@ -41,6 +41,10 @@ void    key_press(t_data *data)
         data->py -= 2;
     if (data->move_down)
         data->py += 2; 
+    if (data->left)
+        
+    if (data->right)
+
 }
 
 int buttons_press(int key, t_data *data)//tusa basildiginde
@@ -53,6 +57,10 @@ int buttons_press(int key, t_data *data)//tusa basildiginde
         data->move_up = 1;
     else if (key == 1) // S
         data->move_down = 1;
+    else if (key == 123)//left
+        data->left = 1;
+    else if (key == 124)//right
+        data->right = 1;
     else if (key == 53) // ESC
         exit(0);
     return 0;
@@ -68,5 +76,9 @@ int buttons_release(int key, t_data *data)//tus birakildiginde
         data->move_up = 0;
     else if (key == 1)
         data->move_down = 0;
+    else if (key == 123)//left
+        data->left = 0;
+    else if (key == 124)//right
+        data->right = 0;
     return 0;
 }

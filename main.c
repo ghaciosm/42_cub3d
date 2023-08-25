@@ -52,6 +52,8 @@ int	main(int ac, char **av)
     data->move_right = 0;
     data->move_up = 0;
     data->move_down = 0;
+	data->left = 0;
+	data->right = 0;
 	data->pa = 0;
 	data->pdx = cos(data->pa) * 5;
 	data->pdy = sin(data->pa) * 5;

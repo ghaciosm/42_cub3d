@@ -44,6 +44,8 @@ typedef struct s_data
 	int		move_right;
 	int		move_up;
 	int		move_down;
+	int		left;
+	int		right;
 } t_data;
 
 char    **map_read(char *filename);
