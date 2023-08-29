@@ -2,54 +2,73 @@
 #include "mlx/mlx.h"
 #include <math.h>
 
-void draw_line(t_data *data, int x, int y, int length, float angle, int color)
+void draw_line_dda(t_data *data, int x1, int y1, int x2, int y2, int color)
 {
-    float endX = x + length * cos(angle);
-    float endY = y - length * sin(angle);
+    int dx = x2 - x1;
+    int dy = y2 - y1;
+    int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy); // Adım sayısı, x veya y eğimi büyük olanı alır
 
-    int steps = 10 ;// 4 piksel adımlarla çizelim
+    float x_inc = (float)dx / steps; // X koordinatındaki adım büyüklüğü
+    float y_inc = (float)dy / steps; // Y koordinatındaki adım büyüklüğü
+
+    float x = (float)x1; // Başlangıç x koordinatı
+    float y = (float)y1; // Başlangıç y koordinatı
 
     for (int i = 0; i < steps; i++)
     {
-        int pixel_x = x + i * cos(angle) * 4;
-        int pixel_y = y - i * sin(angle) * 4;
+        int pixel_x = (int)x;
+        int pixel_y = (int)y;
 
         if (pixel_x >= 0 && pixel_x < WINDOW_WIDTH && pixel_y >= 0 && pixel_y < WINDOW_HEIGHT)
             mlx_pixel_put(data->mlx, data->win, pixel_x, pixel_y, color);
+
+        x += x_inc; // X koordinatını ilerlet
+        y += y_inc; // Y koordinatını ilerlet
     }
 }
 
 void    buttons(t_data *data)
 {
-    if (data->left)
-    {
-        data->pa -= 0.1;
-        /*if(data->pa < 0)
-            data->pa += 2 *PI;
-        data->pdx = cos(data->pa) * 5;
-        data->pdy = sin(data->pa) * 5;*/
-    }
     if (data->right)
     {
-        data->pa += 0.1;
-        /*if((data->pa) > (2.0 * PI))
-            data->pa -= 2.0 *PI;
+        data->pa -= 0.1;
+        if(data->pa < 0)
+            data->pa += (2 * PI);
         data->pdx = cos(data->pa) * 5;
-        data->pdy = sin(data->pa) * 5;*/
+        data->pdy = sin(data->pa) * 5;
     }
-    draw_line(data, data->px, data->py, 4, data->pa, 0x00FF00);
-}
-
-void    key_press(t_data *data)
-{
-    if (data->move_left)
-        data->px -= 2;
-    if (data->move_right)
-        data->px += 2;
+    if (data->left)
+    {
+        data->pa += 0.1;
+        if(data->pa > (2* PI))
+            data->pa -= (2 * PI);
+        data->pdx = cos(data->pa) * 5;
+        data->pdy = sin(data->pa) * 5;
+    }
     if (data->move_up)
-        data->py -= 2;
+    {
+        data->px += data->pdx;
+        data->py -= data->pdy;
+    }
     if (data->move_down)
-        data->py += 2; 
+    {
+        data->px -= data->pdx;
+        data->py += data->pdy;
+    }
+    if (data->move_right)
+    {
+        data->px += data->pdy;
+        data->py += data->pdx;
+    }
+    if (data->move_left)
+    {
+        data->px -= data->pdy;
+        data->py -= data->pdx;
+    }
+    float endX = data->px + 40 * cos(data->pa);
+    float endY = data->py - 40 * sin(data->pa);
+
+    draw_line_dda(data, data->px, data->py, (int)endX, (int)endY, 0xFF0000);
 }
 
 int buttons_press(int key, t_data *data)//tusa basildiginde

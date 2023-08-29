@@ -18,6 +18,9 @@
 # define	SQR 70
 # define	PLAYER (SQR /4)
 # define	PI	3.14159
+# define	ANGLE_INTERVAL	0.01
+
+# define	GREEN	0x0000FF00
 
 
 #include "libft/libft.h"
@@ -46,12 +49,14 @@ typedef struct s_data
 	int		move_down;
 	int		left;
 	int		right;
+	int		**map;
 } t_data;
 
 char    **map_read(char *filename);
 void	map_check(char **map);
 void    start_window(t_data *data);
 int		loop(t_data *data);
+void	draw_rays(t_data *data);
 void	draw_player(t_data *data);
 void	draw_map(t_data *data);
 int		buttons_release(int key, t_data *data);
@@ -59,5 +64,6 @@ int		buttons_press(int key, t_data *data);
 void	start(t_data *data);
 void    key_press(t_data *data);
 void    buttons(t_data *data);
+void	draw_line_dda(t_data *data, int x1, int y1, int x2, int y2, int color);
 
 #endif

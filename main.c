@@ -55,8 +55,8 @@ int	main(int ac, char **av)
 	data->left = 0;
 	data->right = 0;
 	data->pa = 0;
-	data->pdx = cos(data->pa) * 5;
-	data->pdy = sin(data->pa) * 5;
+	data->pdx = cos(data->pa) * 2;
+	data->pdy = sin(data->pa) * 2;
 	map_check(map_read(av[1]));
 	start_window(data);
 	start(data);
