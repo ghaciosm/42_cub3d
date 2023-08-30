@@ -60,7 +60,7 @@ int	is_edge_full(char **map, int height, int width)
 	return (1);
 }
 
-void	map_check(char **map)
+void	map_check(char **map, t_data *data)
 {
 	int	height = 0;
 	int	width = 0;
@@ -70,6 +70,8 @@ void	map_check(char **map)
 		int	current_width = ft_strlen(map[height]);
 		if (width > current_width)
 			width = current_width;
+		data->width = width;
+		data->height = height;
 		height++;
 	}
 	height = 0;

@@ -13,9 +13,9 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-# define	WINDOW_WIDTH  700
-# define	WINDOW_HEIGHT 700
-# define	SQR 70
+# define	WINDOW_WIDTH  640
+# define	WINDOW_HEIGHT 640
+# define	SQR 64
 # define	PLAYER (SQR /4)
 # define	PI	3.14159
 # define	ANGLE_INTERVAL	0.01
@@ -50,10 +50,21 @@ typedef struct s_data
 	int		left;
 	int		right;
 	int		**map;
+	int width;
+	int height;
 } t_data;
 
+typedef struct s_rays
+{
+	float	xo;
+	float	yo;
+	float	rx;
+	float	ry;
+}	t_rays;
+
+
 char    **map_read(char *filename);
-void	map_check(char **map);
+void	map_check(char **map, t_data *data);
 void    start_window(t_data *data);
 int		loop(t_data *data);
 void	draw_rays(t_data *data);

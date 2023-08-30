@@ -57,12 +57,20 @@ int	main(int ac, char **av)
 	data->pa = 0;
 	data->pdx = cos(data->pa) * 2;
 	data->pdy = sin(data->pa) * 2;
-	map_check(map_read(av[1]));
+	map_check(map_read(av[1]), data);
 	start_window(data);
 	start(data);
 	mlx_hook(data->win, 2, (1L << 0), buttons_press, data);// 2 parametresi tusa basilma olayını ifade eder
     mlx_hook(data->win, 3, (1L << 1), buttons_release, data); // (1L << 1) bit maskesi
 	mlx_loop_hook(data->mlx, &loop, data);
     mlx_loop(data->mlx);
+	for(int mu = 0; mu < 10; mu++)
+    {
+        free(data->map[mu]);
+    }
+	mlx_destroy_image(data->mlx, data->img_w); // Önce görüntüyü serbest bırak
+	mlx_destroy_window(data->mlx, data->win);
+	free(data->map);
+	free(data->mlx);
 	free(data);
 }
