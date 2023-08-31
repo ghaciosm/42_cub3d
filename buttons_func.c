@@ -68,7 +68,7 @@ void    buttons(t_data *data)
     float endX = data->px + 40 * cos(data->pa);
     float endY = data->py - 40 * sin(data->pa);
 
-    draw_line_dda(data, data->px, data->py, (int)endX, (int)endY, 0xFF0000);
+    draw_line_dda(data, (int)data->px, (int)data->py, (int)endX, (int)endY, 0xFF0000);
 }
 
 int buttons_press(int key, t_data *data)//tusa basildiginde
