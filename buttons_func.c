@@ -20,7 +20,11 @@ void draw_line_dda(t_data *data, int x1, int y1, int x2, int y2, int color)
         int pixel_y = (int)y;
 
         if (pixel_x >= 0 && pixel_x < WINDOW_WIDTH && pixel_y >= 0 && pixel_y < WINDOW_HEIGHT)
-            mlx_pixel_put(data->mlx, data->win, pixel_x, pixel_y, color);
+        {
+            int pixel_pos = (pixel_y * WINDOW_WIDTH) + pixel_x;
+            ((unsigned int *)data->img_r_addr)[pixel_pos] = color;
+            // mlx_pixel_put(data->mlx, data->win, pixel_x, pixel_y, color);
+        }
 
         x += x_inc; // X koordinatını ilerlet
         y += y_inc; // Y koordinatını ilerlet

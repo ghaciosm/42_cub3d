@@ -13,15 +13,18 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-# define	WINDOW_WIDTH  640
-# define	WINDOW_HEIGHT 640
-# define	SQR 64
-# define	PLAYER (SQR /4)
+# define	WINDOW_WIDTH  800
+# define	WINDOW_HEIGHT 800
+# define	MAP_WIDTH  320
+# define	MAP_HEIGHT 320
+# define	SQR 32
+# define	PLAYER (SQR /3)
 # define	PI	3.14159
 # define	ANGLE_INTERVAL	0.01
+# define	BITS 5
 
 # define	GREEN	0x0000FF00
-
+# define	RED		0xFF0000
 
 #include "libft/libft.h"
 #include "next_line/get_line.h"
@@ -43,6 +46,8 @@ typedef struct s_data
 	void	*img_p_addr;
 	void	*img_w;
 	void	*img_w_addr;
+	void	*img_r;
+	void	*img_r_addr;
 	int		move_left;
 	int		move_right;
 	int		move_up;
