@@ -19,11 +19,11 @@ void draw_line_dda(t_data *data, int x1, int y1, int x2, int y2, int color)
         int pixel_x = (int)x;
         int pixel_y = (int)y;
 
-        if (pixel_x >= 0 && pixel_x < WINDOW_WIDTH && pixel_y >= 0 && pixel_y < WINDOW_HEIGHT)
+        if (pixel_x >= 0 && pixel_x < MAP_WIDTH && pixel_y >= 0 && pixel_y < MAP_HEIGHT)
         {
-            int pixel_pos = (pixel_y * WINDOW_WIDTH) + pixel_x;
-            ((unsigned int *)data->img_r_addr)[pixel_pos] = color;
-            // mlx_pixel_put(data->mlx, data->win, pixel_x, pixel_y, color);
+            int pixel_pos = (pixel_y * MAP_WIDTH) + pixel_x;
+            ((unsigned int *)data->img_rays_addr)[pixel_pos] = color;
+            //mlx_pixel_put(data->mlx, data->win, pixel_x, pixel_y, color);
         }
 
         x += x_inc; // X koordinatını ilerlet
@@ -72,7 +72,7 @@ void    buttons(t_data *data)
     float endX = data->px + 40 * cos(data->pa);
     float endY = data->py - 40 * sin(data->pa);
 
-    draw_line_dda(data, (int)data->px, (int)data->py, (int)endX, (int)endY, 0xFF0000);
+    draw_line_dda(data, (int)data->px, (int)data->py, (int)endX, (int)endY, RED);
 }
 
 int buttons_press(int key, t_data *data)//tusa basildiginde

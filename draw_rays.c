@@ -103,17 +103,17 @@ void	draw_rays(t_data *data)
     float     x;
     float     y;
     float disT;
-    int       i = 0, j = 0;
-    while (j < WINDOW_HEIGHT)
+    int       i = 0;
+    while (i < (WINDOW_HEIGHT * WINDOW_WIDTH))
     {
-        i = 0;
-        while (i < WINDOW_WIDTH)
-        {
-            int pixel_pos = (j * WINDOW_WIDTH) + i;
-            ((unsigned int *)data->img_r_addr)[pixel_pos] = 0x00000000;
-            i++;
-        }
-        j++;
+        ((unsigned int *)data->img_r_addr)[i] = 0x00000000;
+        i++;
+    }
+    i = 0;
+    while (i < (MAP_HEIGHT * MAP_WIDTH))
+    {
+        ((unsigned int *)data->img_rays_addr)[i] = 0xFF000000;
+        i++;
     }
     a = data->pa - (PI / 6);
     i = 0;
@@ -138,7 +138,7 @@ void	draw_rays(t_data *data)
             disT = distH;
         }
         draw3Dwalls(disT,30000,data, a, i);
-        // draw_line_dda(data, (int)data->px, (int)data->py, rays.rx, rays.ry, GREEN);
+        draw_line_dda(data, (int)data->px, (int)data->py, rays.rx, rays.ry, GREEN);
         a +=  ANGLE_INTERVAL / 7.645;
         i++;
     }

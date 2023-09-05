@@ -48,6 +48,8 @@ typedef struct s_data
 	void	*img_w_addr;
 	void	*img_r;
 	void	*img_r_addr;
+	void	*img_rays;
+	void	*img_rays_addr;
 	int		move_left;
 	int		move_right;
 	int		move_up;

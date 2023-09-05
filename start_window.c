@@ -29,6 +29,7 @@ void    start(t_data *data)
     data->img_p = mlx_new_image(data->mlx, PLAYER, PLAYER);//creates a new image in memory.
 	data->img_w = mlx_new_image(data->mlx, MAP_WIDTH, MAP_HEIGHT);
     data->img_r = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+    data->img_rays = mlx_new_image(data->mlx, MAP_WIDTH, MAP_HEIGHT);
     data->img_p_addr = mlx_get_data_addr(data->img_p, &data->bits_per_pixel, &data->size_line, &data->endian);
     //returns information about the created image, allowing a user to modify it later.
     //bits_per_pixel will be filled with the number of bits needed to represent a pixel color (also called the depth of the image).
@@ -40,6 +41,7 @@ void    start(t_data *data)
     int endia;
     data->img_w_addr = mlx_get_data_addr(data->img_w, &bits_per_pix, &size_lin, &endia);
     data->img_r_addr = mlx_get_data_addr(data->img_r, &bits_per_pix, &size_lin,&endia);
+    data->img_rays_addr = mlx_get_data_addr(data->img_rays, &bits_per_pix, &size_lin,&endia);
     fill_map(data);
 }
 
