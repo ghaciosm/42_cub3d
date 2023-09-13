@@ -17,7 +17,8 @@
 
 void	add_space(char **line, int width)
 {
-    char *str = (char *)malloc(sizeof(char) * (width + 1));
+    char *str;
+	str = (char *)malloc(sizeof(char) * (width + 1));
     if(!str)
 	{
 		perror("Memory allocation error");
@@ -31,6 +32,7 @@ void	add_space(char **line, int width)
 	}
 	str[i] = 0;
     ft_strlcpy(str, *line, ft_strlen(*line));
+	str[ft_strlen(*line) - 1] = ' ';
     free(*line);
 	*line = str;
 }
@@ -47,8 +49,9 @@ int	is_edge_full(char **map, int height, int width)
 			if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E' || map[i][j] == 'W')
 			{
 				if (j == 0 || j == (width - 1) || i == 0 || i == (height - 1))
+				{
 					return (0);
-				else if (map[i][j - 1] == ' ' || map[i][j + 1] == ' ' || map[i + 1][j] == ' ' || map[i - 1][j] == ' ')
+				}else if (map[i][j - 1] == ' ' || map[i][j + 1] == ' ' || map[i + 1][j] == ' ' || map[i - 1][j] == ' ')
 					return (0);
 				else if (map[i][j - 1] == '\0' || map[i][j + 1] == '\0' || map[i + 1][j] == '\0' || map[i - 1][j] == '\0')
 					return (0);
@@ -60,28 +63,32 @@ int	is_edge_full(char **map, int height, int width)
 	return (1);
 }
 
-void	map_check(char **map, t_data *data)
+void	map_check(t_data *data)
 {
 	int	height = 0;
 	int	width = 0;
 
-	while (map[height])
+	while (data->map[height])
 	{
-		int	current_width = ft_strlen(map[height]);
-		if (width > current_width)
+		int	current_width = ft_strlen(data->map[height]);
+		if (width < current_width)
 			width = current_width;
 		data->width = width;
 		data->height = height;
 		height++;
 	}
+	data->width--;
 	height = 0;
-	while (map[height])
+	while (data->map[height])
 	{
-		if(ft_strlen(map[height]) < width)
-			add_space(&map[height], width);
+		if(ft_strlen(data->map[height]) < data->width)
+			add_space(&data->map[height], data->width);//burda adresini yollamasam da olur mu
+		else
+			data->map[height][ft_strlen(data->map[height]) - 1] = '\0';
+		printf("[%s]\n",data->map[height]);
 		height++;
 	}
-	if(!is_edge_full(map, height, width))
+	if(!is_edge_full(data->map, height, data->width))
 	{
 		printf("Not all edges are filled with wall\n");
 		exit(1);

@@ -18,10 +18,9 @@ void draw_line_dda(t_data *data, int x1, int y1, int x2, int y2, int color)
     {
         int pixel_x = (int)x;
         int pixel_y = (int)y;
-
-        if (pixel_x >= 0 && pixel_x < MAP_WIDTH && pixel_y >= 0 && pixel_y < MAP_HEIGHT)
+        if (pixel_x >= 0 && pixel_x < (SQR * data->width) && pixel_y >= 0 && pixel_y < (SQR * data->height))
         {
-            int pixel_pos = (pixel_y * MAP_WIDTH) + pixel_x;
+            int pixel_pos = (pixel_y * (SQR * data->width)) + pixel_x;
             ((unsigned int *)data->img_rays_addr)[pixel_pos] = color;
             //mlx_pixel_put(data->mlx, data->win, pixel_x, pixel_y, color);
         }
@@ -51,28 +50,36 @@ void    buttons(t_data *data)
     }
     if (data->move_up)
     {
-        data->px += data->pdx;
-        data->py -= data->pdy;
+        if ((int)((data->px + (data->pdx * 4)) / SQR) <= (data->width) && (int)(fabs(data->py - (data->pdy * 4)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py - (data->pdy * 4)) / SQR)][(int)((data->px + (data->pdx * 4)) / SQR)] == '0')
+        {
+            data->px += data->pdx;
+            data->py -= data->pdy;
+        }
     }
     if (data->move_down)
     {
-        data->px -= data->pdx;
-        data->py += data->pdy;
+        if ((int)((data->px - (data->pdx * 4)) / SQR) <= (data->width) && (int)(fabs(data->py + (data->pdy * 4)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py + (data->pdy * 4)) / SQR)][(int)((data->px - (data->pdx * 4)) / SQR)] == '0')
+        {
+            data->px -= data->pdx;
+            data->py += data->pdy;
+        }
     }
     if (data->move_right)
     {
-        data->px += data->pdy;
-        data->py += data->pdx;
+        if ((int)((data->px + (data->pdy * 4)) / SQR) <= (data->height) && (int)(fabs(data->py + (data->pdx * 4)) / SQR) <= (data->width) && data->map[(int)(fabs(data->py + (data->pdx * 4)) / SQR)][(int)((data->px + (data->pdy * 4)) / SQR)] == '0')
+        {
+            data->px += data->pdy;
+            data->py += data->pdx;
+        }
     }
     if (data->move_left)
     {
-        data->px -= data->pdy;
-        data->py -= data->pdx;
+        if ((int)((data->px - (data->pdy * 4)) / SQR) <= (data->height) && (int)(fabs(data->py - (data->pdx * 4)) / SQR) <= (data->width) && data->map[(int)(fabs(data->py - (data->pdx * 4)) / SQR)][(int)((data->px - (data->pdy * 4)) / SQR)] == '0')
+        {
+            data->px -= data->pdy;
+            data->py -= data->pdx;
+        }
     }
-    float endX = data->px + 40 * cos(data->pa);
-    float endY = data->py - 40 * sin(data->pa);
-
-    draw_line_dda(data, (int)data->px, (int)data->py, (int)endX, (int)endY, RED);
 }
 
 int buttons_press(int key, t_data *data)//tusa basildiginde
@@ -90,7 +97,7 @@ int buttons_press(int key, t_data *data)//tusa basildiginde
     else if (key == 124)//right
         data->right = 1;
     else if (key == 53) // ESC
-        exit(0);
+        close_window(data);
     return 0;
 }
 

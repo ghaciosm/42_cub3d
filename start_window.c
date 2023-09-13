@@ -1,35 +1,12 @@
 #include "cub3d.h"
 #include "mlx/mlx.h"
 
-#include <string.h>
-void    fill_map(t_data *data)
-{
-     int map[10][10] = {
-        {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
-        {'1', '0', '0', '1', '0', '0', '1', '1', '0', '1'},
-        {'1', '0', '0', '1', '0', '0', '0', '0', '0', '1'},
-        {'1', '1', '0', '1', '0', '0', '0', '0', '0', '1'},
-        {'1', '0', '0', '1', '0', '0', '0', '0', '0', '1'},
-        {'1', '1', '0', '1', '0', '0', '0', '0', '0', '1'},
-        {'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-        {'1', '1', '0', '0', '0', '0', '0', '1', '0', '1'},
-        {'1', '0', '1', '0', '0', '0', '0', '0', '0', '1'},
-        {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}
-    };
-    data->map = (int **)malloc(sizeof(int*) * 10);
-    for(int mu = 0; mu < 10; mu++)
-    {
-        data->map[mu] = (int *)malloc(sizeof(int) * 10);
-        memcpy(data->map[mu], map[mu], 10 * sizeof(int));
-    }
-}
-
 void    start(t_data *data)
 {
     data->img_p = mlx_new_image(data->mlx, PLAYER, PLAYER);//creates a new image in memory.
-	data->img_w = mlx_new_image(data->mlx, MAP_WIDTH, MAP_HEIGHT);
+	data->img_w = mlx_new_image(data->mlx, (SQR * data->width), (SQR* data->height));
     data->img_r = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-    data->img_rays = mlx_new_image(data->mlx, MAP_WIDTH, MAP_HEIGHT);
+    data->img_rays = mlx_new_image(data->mlx, (SQR * data->width), (SQR* data->height));
     data->img_p_addr = mlx_get_data_addr(data->img_p, &data->bits_per_pixel, &data->size_line, &data->endian);
     //returns information about the created image, allowing a user to modify it later.
     //bits_per_pixel will be filled with the number of bits needed to represent a pixel color (also called the depth of the image).
@@ -42,7 +19,7 @@ void    start(t_data *data)
     data->img_w_addr = mlx_get_data_addr(data->img_w, &bits_per_pix, &size_lin, &endia);
     data->img_r_addr = mlx_get_data_addr(data->img_r, &bits_per_pix, &size_lin,&endia);
     data->img_rays_addr = mlx_get_data_addr(data->img_rays, &bits_per_pix, &size_lin,&endia);
-    fill_map(data);
+    //fill_map(data);
 }
 
 
@@ -62,31 +39,63 @@ void draw_player(t_data *data)
 
 void draw_map(t_data *data)
 {
-    for (int y = 0; y < 10; y++)
+    int y = 0;
+    int x = 0;
+    while (y < data->height)
     {
-        for (int x = 0; x < 10; x++)
+        x = 0;
+        while (x < data->width)
         {
-                int pixel_start_x = x * SQR;
-                int pixel_start_y = y * SQR;
+            int pixel_start_x = x * SQR;
+            int pixel_start_y = y * SQR;
+            int dy = 0;
+            int dx= 0;
                 
-                for (int dy = 0; dy < SQR ; dy++)
+            while (dy < SQR)
+            {
+                dx = 0;
+                while (dx < SQR)
                 {
-                    for (int dx = 0; dx < SQR ; dx++)
-                    {
-                        int pixel_pos = ((pixel_start_y + dy) * (MAP_WIDTH) + (pixel_start_x + dx));
-                        if (dx == 0  || dy == 0 )
-                        {
-                            ((unsigned int *)data->img_w_addr)[pixel_pos] = 0x404040;
-                        }
-                        else if (data->map[y][x] == '1')
-                            ((unsigned int *)data->img_w_addr)[pixel_pos] = 0x00FFFFFF;
-                        else
-                            ((unsigned int *)data->img_w_addr)[pixel_pos] = 0x00000000;
-                    }
+                    int pixel_pos = ((pixel_start_y + dy) * ((SQR * data->width)) + (pixel_start_x + dx));
+                    if(data->map[y][x] == ' ' || data->map[y][x] == '\n')
+                        ((unsigned int *)data->img_w_addr)[pixel_pos] = TRANSP;
+                    else if (dx == 0  || dy == 0 )
+                        ((unsigned int *)data->img_w_addr)[pixel_pos] = 0x404040;
+                    else if (data->map[y][x] == '1')
+                        ((unsigned int *)data->img_w_addr)[pixel_pos] = 0x00FFFFFF;
+                     else
+                     {
+                        ((unsigned int *)data->img_w_addr)[pixel_pos] = 0x00000000;
+                     }
+                    dx++;
                 }
+                dy++;
+            }
+            x++;
         }
+        y++;
     }
     mlx_put_image_to_window(data->mlx, data->win, data->img_w, 0, 0);
+}
+
+void    find_player(t_data *data)
+{
+    int i = 0;
+    int j = 0;
+    while(i < data->height)
+    {
+        j = 0;
+        while(j < data->width)
+        {
+            if(data->map[i][j] == 'N' || data->map[i][j] == 'S' || data->map[i][j] == 'W' || data->map[i][j] == 'E')
+            {
+                data->px = (j * SQR) - SQR / 2;
+                data->py = (i * SQR) - SQR / 2;
+            }
+            j++;
+        }
+        i++;
+    }
 }
 
 void    start_window(t_data *data)
@@ -103,5 +112,5 @@ void    start_window(t_data *data)
         perror("Error creating window");
         exit(1);
     }
-    data->px = (SQR / 2) * 10, data->py = (SQR / 2) * 10;
+    find_player(data);
 }
