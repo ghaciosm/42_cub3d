@@ -41,6 +41,7 @@ void draw_map(t_data *data)
 {
     int y = 0;
     int x = 0;
+    //printf("%d\n", data->height);
     while (y < data->height)
     {
         x = 0;

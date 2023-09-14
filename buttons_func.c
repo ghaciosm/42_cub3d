@@ -34,7 +34,7 @@ void    buttons(t_data *data)
 {
     if (data->right)
     {
-        data->pa -= 0.1;
+        data->pa -= 0.05;
         if(data->pa < 0)
             data->pa += (2 * PI);
         data->pdx = cos(data->pa) * 5;
@@ -42,7 +42,7 @@ void    buttons(t_data *data)
     }
     if (data->left)
     {
-        data->pa += 0.1;
+        data->pa += 0.05;
         if(data->pa > (2* PI))
             data->pa -= (2 * PI);
         data->pdx = cos(data->pa) * 5;
@@ -50,34 +50,34 @@ void    buttons(t_data *data)
     }
     if (data->move_up)
     {
-        if ((int)((data->px + (data->pdx * 4)) / SQR) <= (data->width) && (int)(fabs(data->py - (data->pdy * 4)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py - (data->pdy * 4)) / SQR)][(int)((data->px + (data->pdx * 4)) / SQR)] == '0')
+        if ((int)((data->px + (data->pdx)) / SQR) <= (data->width) && (int)(fabs(data->py - (data->pdy)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py - (data->pdy)) / SQR)][(int)((data->px + (data->pdx)) / SQR)] == '0')
         {
-            data->px += data->pdx;
-            data->py -= data->pdy;
+            data->px += (data->pdx / 2.0);
+            data->py -= (data->pdy / 2.0);
         }
     }
     if (data->move_down)
     {
-        if ((int)((data->px - (data->pdx * 4)) / SQR) <= (data->width) && (int)(fabs(data->py + (data->pdy * 4)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py + (data->pdy * 4)) / SQR)][(int)((data->px - (data->pdx * 4)) / SQR)] == '0')
+        if ((int)((data->px - (data->pdx)) / SQR) <= (data->width) && (int)(fabs(data->py + (data->pdy)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py + (data->pdy)) / SQR)][(int)((data->px - (data->pdx)) / SQR)] == '0')
         {
-            data->px -= data->pdx;
-            data->py += data->pdy;
+            data->px -= (data->pdx / 2.0);
+            data->py += (data->pdy / 2.0);
         }
     }
     if (data->move_right)
     {
-        if ((int)((data->px + (data->pdy * 4)) / SQR) <= (data->height) && (int)(fabs(data->py + (data->pdx * 4)) / SQR) <= (data->width) && data->map[(int)(fabs(data->py + (data->pdx * 4)) / SQR)][(int)((data->px + (data->pdy * 4)) / SQR)] == '0')
+        if ((int)((data->px + (data->pdy)) / SQR) <= (data->width) && (int)(fabs(data->py + (data->pdx)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py + (data->pdx)) / SQR)][(int)((data->px + (data->pdy)) / SQR)] == '0')
         {
-            data->px += data->pdy;
-            data->py += data->pdx;
+            data->px += (data->pdy / 2.0);
+            data->py += (data->pdx / 2.0);
         }
     }
     if (data->move_left)
     {
-        if ((int)((data->px - (data->pdy * 4)) / SQR) <= (data->height) && (int)(fabs(data->py - (data->pdx * 4)) / SQR) <= (data->width) && data->map[(int)(fabs(data->py - (data->pdx * 4)) / SQR)][(int)((data->px - (data->pdy * 4)) / SQR)] == '0')
+        if ((int)((data->px - (data->pdy)) / SQR) <= (data->width) && (int)(fabs(data->py - (data->pdx)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py - (data->pdx)) / SQR)][(int)((data->px - (data->pdy)) / SQR)] == '0')
         {
-            data->px -= data->pdy;
-            data->py -= data->pdx;
+            data->px -= (data->pdy / 2.0);
+            data->py -= (data->pdx / 2.0);
         }
     }
 }

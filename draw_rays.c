@@ -151,7 +151,7 @@ void	draw_rays(t_data *data)
         }
         draw3Dwalls(disT,20000,data, a, i, color);
         draw_line_dda(data, (int)data->px, (int)data->py, rays.rx, rays.ry, GREEN);
-        a +=  ANGLE_INTERVAL / 6.8;
+        a +=  ANGLE_INTERVAL / 10.5;
         i++;
     }
     mlx_put_image_to_window(data->mlx, data->win, data->img_r, 0, 0);

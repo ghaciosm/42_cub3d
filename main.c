@@ -32,25 +32,18 @@ int	name_check(char *filename)
 int close_window(t_data *data) 
 {
 	int i = 0;
-    mlx_destroy_window(data->mlx, data->win);
 	if (data->map) 
 	{
-        while (i < 10)
+		printf("aaaa: %d\n", data->height);
+        while (i < data->height)
 		{
+			printf("ccc\n");
             free(data->map[i]);
             i++;
         }
         free(data->map);
     }
-	/*free(data->mlx);
-	free(data->img_p);
-	free(data->img_p_addr);
-	free(data->img_w);
-	free(data->img_w_addr);
-	free(data->img_r_addr);
-	free(data->img_rays);
-	free(data->img_rays_addr);
-	free(data->img_r);*/
+	mlx_destroy_window(data->mlx, data->win);
 	free(data);
     exit(0);
 }

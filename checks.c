@@ -63,6 +63,42 @@ int	is_edge_full(char **map, int height, int width)
 	return (1);
 }
 
+void	control(t_data *data)
+{
+    int i = 0;
+    int j = 0;
+	int flag = 0;
+    while(i < data->height)
+    {
+        j = 0;
+        while(j < data->width)
+        {
+            if(data->map[i][j] == 'N' || data->map[i][j] == 'S' || data->map[i][j] == 'W' || data->map[i][j] == 'E' || data->map[i][j] == '1' || data->map[i][j] == '0' || data->map[i][j] == ' ')
+            {
+				if(data->map[i][j] == 'N' || data->map[i][j] == 'S' || data->map[i][j] == 'W' || data->map[i][j] == 'E')
+                {	
+					if(flag)
+					{
+						perror("There is more than one player!");
+						if(data->map)
+							printf("aa\n");
+						close_window(data);
+					}
+					flag = 1;
+				}
+            }
+			else
+			{
+				perror("Wrong character on map!");
+				close_window(data);
+			}
+            j++;
+			//printf("aa\n");
+        }
+        i++;
+    }
+}
+
 void	map_check(t_data *data)
 {
 	int	height = 0;
@@ -74,23 +110,24 @@ void	map_check(t_data *data)
 		if (width < current_width)
 			width = current_width;
 		data->width = width;
-		data->height = height;
 		height++;
 	}
+	data->height = height;
 	data->width--;
 	height = 0;
 	while (data->map[height])
 	{
 		if(ft_strlen(data->map[height]) < data->width)
-			add_space(&data->map[height], data->width);//burda adresini yollamasam da olur mu
+			add_space(&data->map[height], data->width + 1);//burda adresini yollamasam da olur mu
 		else
 			data->map[height][ft_strlen(data->map[height]) - 1] = '\0';
-		printf("[%s]\n",data->map[height]);
 		height++;
 	}
 	if(!is_edge_full(data->map, height, data->width))
 	{
-		printf("Not all edges are filled with wall\n");
-		exit(1);
+		perror("Not all edges are filled with wall!");
+		close_window(data);
 	}
+	control(data);
+
 }

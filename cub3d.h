@@ -13,8 +13,8 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-# define	WINDOW_WIDTH  713
-# define	WINDOW_HEIGHT 713
+# define	WINDOW_WIDTH  1100
+# define	WINDOW_HEIGHT 1000
 # define	SQR 16
 # define	PLAYER (SQR /3)
 # define	PI	3.14159
