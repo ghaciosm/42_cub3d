@@ -29,21 +29,20 @@ int	name_check(char *filename)
 	return (1);
 }
 
-int close_window(t_data *data) 
+int close_window(t_data *data, int flag) 
 {
 	int i = 0;
 	if (data->map) 
 	{
-		printf("aaaa: %d\n", data->height);
         while (i < data->height)
 		{
-			printf("ccc\n");
             free(data->map[i]);
             i++;
         }
         free(data->map);
     }
-	mlx_destroy_window(data->mlx, data->win);
+	if (flag != 1)
+		mlx_destroy_window(data->mlx, data->win);
 	free(data);
     exit(0);
 }
@@ -76,9 +75,6 @@ int	main(int ac, char **av)
     data->move_down = 0;
 	data->left = 0;
 	data->right = 0;
-	data->pa = 0;
-	data->pdx = cos(data->pa) * 2;
-	data->pdy = sin(data->pa) * 2;
 	map_read(av[1], &map, data);
 	map_check(data);
 	start_window(data);

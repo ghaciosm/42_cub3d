@@ -149,6 +149,7 @@ void	draw_rays(t_data *data)
             disT = distH;
             color = 1;
         }
+        //printf("a: %f\n", a);
         draw3Dwalls(disT,20000,data, a, i, color);
         draw_line_dda(data, (int)data->px, (int)data->py, rays.rx, rays.ry, GREEN);
         a +=  ANGLE_INTERVAL / 10.5;

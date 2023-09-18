@@ -1,5 +1,6 @@
 #include "cub3d.h"
 #include "mlx/mlx.h"
+#include <math.h>
 
 void    start(t_data *data)
 {
@@ -79,6 +80,20 @@ void draw_map(t_data *data)
     mlx_put_image_to_window(data->mlx, data->win, data->img_w, 0, 0);
 }
 
+void    find_direction(char dir, t_data *data)
+{
+    if(dir == 'N')
+        data->pa = (PI / 2);
+    else if(dir == 'S')
+        data->pa = (3 * PI) / 2;
+    else if(dir == 'E')
+        data->pa = 0;
+    if(dir == 'W')
+        data->pa = PI;
+    data->pdx = cos(data->pa) * 2;
+	data->pdy = sin(data->pa) * 2;
+}
+
 void    find_player(t_data *data)
 {
     int i = 0;
@@ -90,8 +105,10 @@ void    find_player(t_data *data)
         {
             if(data->map[i][j] == 'N' || data->map[i][j] == 'S' || data->map[i][j] == 'W' || data->map[i][j] == 'E')
             {
-                data->px = (j * SQR) - SQR / 2;
-                data->py = (i * SQR) - SQR / 2;
+                find_direction(data->map[i][j], data);
+                data->px = (j * SQR) + (SQR / 2);
+                data->py = (i * SQR) + (SQR / 2);
+                data->map[i][j] = '0';
             }
             j++;
         }
@@ -114,4 +131,7 @@ void    start_window(t_data *data)
         exit(1);
     }
     find_player(data);
+    /*data->pa = 0;
+    data->pdx = cos(data->pa) * 2;
+	data->pdy = sin(data->pa) * 2;*/
 }

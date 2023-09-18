@@ -21,6 +21,9 @@
 # define	ANGLE_INTERVAL	0.01
 # define	BITS 4
 
+# define	MOVE_X (data->pdx / 5.0)
+# define	MOVE_Y (data->pdy / 5.0)
+
 # define	BLUE	0x000000FF
 # define	GREEN	0x0000FF00
 # define	RED		0x00FF0000
@@ -79,7 +82,6 @@ typedef struct s_map
 	char	***color_li;
 }	t_map;
 
-
 char    **map_read(char *filename, t_map *map, t_data *data);
 void	map_check(t_data *data);
 void    start_window(t_data *data);
@@ -93,6 +95,6 @@ void	start(t_data *data);
 void    key_press(t_data *data);
 void    buttons(t_data *data);
 void	draw_line_dda(t_data *data, int x1, int y1, int x2, int y2, int color);
-int		close_window(t_data *data);
+int		close_window(t_data *data,int flag);
 
 #endif

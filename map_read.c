@@ -79,9 +79,13 @@ char	**map_read(char *filename, t_map *map, t_data *data)
 		data->map[0] = get_next_line(fd);
 	}
 	i = 0;
+	if(data->map[i][ft_strlen(data->map[i]) - 1] == '\n')
+		data->map[i][ft_strlen(data->map[i]) - 1] = 0;
 	while (++i < line_count - c - 1)
 	{
 		data->map[i] = get_next_line(fd);
+		if(data->map[i][ft_strlen(data->map[i]) - 1] == '\n')
+			data->map[i][ft_strlen(data->map[i]) - 1] = 0;
 	}
 	data->map[i] = NULL;
 	return data->map;

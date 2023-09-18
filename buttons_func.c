@@ -50,34 +50,35 @@ void    buttons(t_data *data)
     }
     if (data->move_up)
     {
-        if ((int)((data->px + (data->pdx)) / SQR) <= (data->width) && (int)(fabs(data->py - (data->pdy)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py - (data->pdy)) / SQR)][(int)((data->px + (data->pdx)) / SQR)] == '0')
+        //printf("%d\n", data->map[(int)(fabs(data->py - MOVE_Y) / SQR)][(int)((data->px + MOVE_X) / SQR)] == '0');
+        if ((int)((data->px + MOVE_X) / SQR) <= (data->width) && (int)(fabs(data->py - MOVE_Y) / SQR) <= (data->height) && data->map[(int)(fabs(data->py - MOVE_Y) / SQR)][(int)((data->px + MOVE_X) / SQR)] == '0')
         {
-            data->px += (data->pdx / 2.0);
-            data->py -= (data->pdy / 2.0);
+            data->px += (MOVE_X);
+            data->py -= (MOVE_Y);
         }
     }
     if (data->move_down)
     {
-        if ((int)((data->px - (data->pdx)) / SQR) <= (data->width) && (int)(fabs(data->py + (data->pdy)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py + (data->pdy)) / SQR)][(int)((data->px - (data->pdx)) / SQR)] == '0')
+        if ((int)((data->px - MOVE_X) / SQR) <= (data->width) && (int)(fabs(data->py + MOVE_Y) / SQR) <= (data->height) && data->map[(int)(fabs(data->py + MOVE_Y) / SQR)][(int)((data->px - MOVE_X) / SQR)] == '0')
         {
-            data->px -= (data->pdx / 2.0);
-            data->py += (data->pdy / 2.0);
+            data->px -= MOVE_X;
+            data->py += MOVE_Y;
         }
     }
     if (data->move_right)
     {
-        if ((int)((data->px + (data->pdy)) / SQR) <= (data->width) && (int)(fabs(data->py + (data->pdx)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py + (data->pdx)) / SQR)][(int)((data->px + (data->pdy)) / SQR)] == '0')
+        if ((int)((data->px + MOVE_Y) / SQR) <= (data->width) && (int)(fabs(data->py + MOVE_X) / SQR) <= (data->height) && data->map[(int)(fabs(data->py + MOVE_X) / SQR)][(int)((data->px + MOVE_Y) / SQR)] == '0')
         {
-            data->px += (data->pdy / 2.0);
-            data->py += (data->pdx / 2.0);
+            data->px += MOVE_Y;
+            data->py += MOVE_X;
         }
     }
     if (data->move_left)
     {
-        if ((int)((data->px - (data->pdy)) / SQR) <= (data->width) && (int)(fabs(data->py - (data->pdx)) / SQR) <= (data->height) && data->map[(int)(fabs(data->py - (data->pdx)) / SQR)][(int)((data->px - (data->pdy)) / SQR)] == '0')
+        if ((int)((data->px - MOVE_Y) / SQR) <= (data->width) && (int)(fabs(data->py - MOVE_X) / SQR) <= (data->height) && data->map[(int)(fabs(data->py - MOVE_X) / SQR)][(int)((data->px - MOVE_Y) / SQR)] == '0')
         {
-            data->px -= (data->pdy / 2.0);
-            data->py -= (data->pdx / 2.0);
+            data->px -= MOVE_Y;
+            data->py -= MOVE_X;
         }
     }
 }
@@ -97,7 +98,7 @@ int buttons_press(int key, t_data *data)//tusa basildiginde
     else if (key == 124)//right
         data->right = 1;
     else if (key == 53) // ESC
-        close_window(data);
+        close_window(data, 0);
     return 0;
 }
 
