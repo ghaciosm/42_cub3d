@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_read.c                                           :+:      :+:    :+:   */
+/*   map_read.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ghaciosm <ghaciosm@student.42kocaeli.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/18 11:47:13 by ghaciosm          #+#    #+#             */
-/*   Updated: 2023/08/18 11:55:54 by ghaciosm         ###   ########.fr       */
+/*   Created: 2023/09/19 13:24:25 by ghaciosm          #+#    #+#             */
+/*   Updated: 2023/09/19 13:24:27 by ghaciosm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,14 @@ void	parse_texture_line(t_map *map, char *line, int count)
 	map->textures[count] = ft_split(line, ' ');
 }
 
-void	lin_count(char *filename, int *l_count)
-{	
-	int		fd = open(filename, O_RDONLY);
+void	lin_count(char *filename, int *l_count, t_data *data)
+{
+	int		fd;
 	char	*line;
+
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-    {
-        perror("Error opening file");
-        exit(1);
-    }
+		error(1, "Error opening file", data);
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -40,26 +39,14 @@ void	lin_count(char *filename, int *l_count)
 	close(fd);
 }
 
-char	**map_read(char *filename, t_map *map, t_data *data)
+char	*map_read2(t_map *map, int fd, int *c, int *line_count)
 {
-	map->textures = (char ***)malloc(sizeof(char **) * 6);
-	char	**str;
-	int		count = 0, c = 0;
-	int		line_count = 0;
-	int		(i) = -1;
-	char	*line = NULL;
-	int fd;
-
-	lin_count(filename, &line_count);
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-    {
-        perror("Error opening file");
-        exit(1);
-    }
-	while (++i < line_count && count < 6)
+	char *(line) = NULL;
+	int (count) = 0;
+	int (i) = -1;
+	while (++i < (*line_count) && count < 6)
 	{
-		c++;
+		(*c)++;
 		line = get_next_line(fd);
 		if (line[0] == '\n')
 			free(line);
@@ -70,23 +57,40 @@ char	**map_read(char *filename, t_map *map, t_data *data)
 			count++;
 		}
 	}
-	int j = 0;
-	data->map = (char **)malloc(sizeof(char *) * ((line_count - c)));
-	data->map[0] = get_next_line(fd);
-	while(data->map[0][0] == '\n' || data->map[0] == NULL)
+	line = get_next_line(fd);
+	while (line == NULL || line[0] == '\n')
 	{
-		free(data->map[0]);
-		data->map[0] = get_next_line(fd);
+		(*c)++;
+		free(line);
+		line = get_next_line(fd);
 	}
+	return (line);
+}
+
+void	map_read(char *filename, t_map *map, t_data *data)
+{
+	char **(str);
+	int (c) = 0;
+	int (line_count) = 0;
+	int (i) = -1;
+	char *(line) = NULL;
+	int (fd);
+	map->textures = (char ***)malloc(sizeof(char **) * 6);
+	lin_count(filename, &line_count, data);
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		error(1, "Error opening file", data);
+	line = map_read2(map, fd, &c, &line_count);
+	data->map = (char **)malloc(sizeof(char *) * ((line_count - c + 1)));
 	i = 0;
-	if(data->map[i][ft_strlen(data->map[i]) - 1] == '\n')
-		data->map[i][ft_strlen(data->map[i]) - 1] = 0;
-	while (++i < line_count - c - 1)
+	data->map[0] = line;
+	if (data->map[0][ft_strlen(data->map[0]) - 1] == '\n')
+		data->map[0][ft_strlen(data->map[0]) - 1] = 0;
+	while (++i < (line_count - c))
 	{
 		data->map[i] = get_next_line(fd);
-		if(data->map[i][ft_strlen(data->map[i]) - 1] == '\n')
+		if (data->map[i][ft_strlen(data->map[i]) - 1] == '\n')
 			data->map[i][ft_strlen(data->map[i]) - 1] = 0;
 	}
 	data->map[i] = NULL;
-	return data->map;
 }
